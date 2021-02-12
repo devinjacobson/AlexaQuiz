@@ -9,7 +9,7 @@ import json
 import logging
 
 import regex
-#from textblob import textblob
+from textblob import TextBlob
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.handler_input import HandlerInput
