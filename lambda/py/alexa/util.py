@@ -4,6 +4,10 @@
 
 import random
 import six
+#import nltk
+import re
+#from textblob import TextBlob
+
 from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_core.utils import is_request_type
 
@@ -211,4 +215,3 @@ def compare_slots(slots, value):
             return slot.value.lower() == value.lower()
     else:
         return False
-

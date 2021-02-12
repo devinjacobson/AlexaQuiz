@@ -8,6 +8,9 @@
 import json
 import logging
 
+import regex
+#from textblob import textblob
+
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_core.serialize import DefaultSerializer
@@ -117,6 +120,7 @@ class QuizHandler(AbstractRequestHandler):
         attr["counter"] = 0
         attr["quiz_score"] = 0
 
+        util.initdata()
         question = util.ask_question(handler_input)
         response_builder = handler_input.response_builder
         response_builder.speak(data.START_QUIZ_MESSAGE + question)
