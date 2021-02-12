@@ -5,11 +5,8 @@ import random
 import six
 #import nltk
 import re
-<<<<<<< HEAD
 #from textblob import TextBlob
 
-=======
->>>>>>> ec14cc7f22a92156846e351ba2e70add6f5716a4
 from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_core.utils import is_request_type
 
@@ -219,8 +216,6 @@ def compare_slots(slots, value):
             return slot.value.lower() == value.lower()
     else:
         return False
-<<<<<<< HEAD
-=======
 
 # Create the blank in string
 def replaceIC(word, sentence):
@@ -228,7 +223,7 @@ def replaceIC(word, sentence):
     return insensitive_hippo.sub('__________________', sentence)
 
 # For a sentence create a blank space.
-# It first tries to randomly selection proper-noun 
+# It first tries to randomly selection proper-noun
 # and if the proper noun is not found, it selects a noun randomly.
 def removeWord(sentence, poss):
     words = None
@@ -262,7 +257,7 @@ def initdata():
 
     sposs = {}
     for sentence in ww2b.sentences:
-        
+
         # We are going to prepare the dictionary of parts-of-speech as the key and value is a list of words:
         # {part-of-speech: [word1, word2]}
         # We are basically grouping the words based on the parts-of-speech
@@ -273,8 +268,8 @@ def initdata():
             if tag not in poss:
                 poss[tag] = []
             poss[tag].append(t[0])
-        
-    # Iterate over the sentenses 
+
+    # Iterate over the sentenses
     for sentence in sposs.keys():
         poss = sposs[sentence]
         (word, osentence, replaced) = removeWord(sentence, poss)
@@ -287,4 +282,3 @@ def initdata():
             quizentry['a'] = word
             QUIZ_CONTENT.append(quizentry)
     '''
->>>>>>> ec14cc7f22a92156846e351ba2e70add6f5716a4
