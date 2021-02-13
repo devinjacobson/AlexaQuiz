@@ -8,7 +8,7 @@
       },
       "code": {
         "default": {
-          "lastDeployHash": "nqpQGF5W/7Ojvt5j6hCaotXwMe0="
+          "lastDeployHash": "NVgFtV1awP7zvAcj/ENy6r8vR5k="
         }
       },
       "skillInfrastructure": {
@@ -17,8 +17,8 @@
             "default": {
               "lambda": {
                 "arn": "arn:aws:lambda:us-east-1:943119288209:function:ask-statesquiz-default-default-1613092454739",
-                "lastModified": "2021-02-12T16:55:33.615+0000",
-                "revisionId": "59e2baa3-899d-482f-b67d-0c77d0dda6f8"
+                "lastModified": "2021-02-13T04:30:09.904+0000",
+                "revisionId": "66191815-8104-4534-9dfc-500927d24282"
               },
               "iamRole": "arn:aws:iam::943119288209:role/ask-lambda-StatesQuiz-1613092440134"
             }

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 QUIZ_CONTENT = [{'q':'what is your name', 'a':'Devin'}]
+
 STATES_LIST = [
     {
         'abbreviation': 'MS', 'capital': 'Jackson',
