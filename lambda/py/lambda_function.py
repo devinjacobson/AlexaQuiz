@@ -120,10 +120,12 @@ class QuizHandler(AbstractRequestHandler):
         attr["counter"] = 0
         attr["quiz_score"] = 0
 
-        util.initdata()
-        question = util.ask_question(handler_input)
         response_builder = handler_input.response_builder
-        response_builder.speak(data.START_QUIZ_MESSAGE + question)
+        response_builder.speak(data.START_QUIZ_MESSAGE)
+        util.initdata()
+#        question = util.ask_question(handler_input)
+        question = util.ask_my_question(handler_input)
+        response_builder.speak(question)
         response_builder.ask(question)
 
         if data.USE_CARDS_FLAG:
@@ -137,29 +139,29 @@ class QuizHandler(AbstractRequestHandler):
                         large_image_url=util.get_large_image(item)
                     )))
 
-        if util.supports_display(handler_input):
-            item = attr["quiz_item"]
-            item_attr = attr["quiz_attr"]
-            title = "Question #{}".format(str(attr["counter"]))
-            background_img = Image(
-                sources=[ImageInstance(
-                    url=util.get_image(
-                        ht=1024, wd=600, label=item["abbreviation"]))])
-            item_list = []
-            for ans in util.get_multiple_choice_answers(
-                    item, item_attr, data.STATES_LIST):
-                item_list.append(ListItem(
-                    token=ans,
-                    text_content=get_plain_text_content(primary_text=ans)))
+#        if util.supports_display(handler_input):
+#            item = attr["quiz_item"]
+#            item_attr = attr["quiz_attr"]
+#            title = "Question #{}".format(str(attr["counter"]))
+#            background_img = Image(
+#                sources=[ImageInstance(
+#                    url=util.get_image(
+#                        ht=1024, wd=600, label=item["abbreviation"]))])
+#            item_list = []
+#            for ans in util.get_multiple_choice_answers(
+#                    item, item_attr, data.STATES_LIST):
+#                item_list.append(ListItem(
+#                    token=ans,
+#                    text_content=get_plain_text_content(primary_text=ans)))
 
-            response_builder.add_directive(
-                RenderTemplateDirective(
-                    ListTemplate1(
-                        token="Question",
-                        back_button=BackButtonBehavior.HIDDEN,
-                        background_image=background_img,
-                        title=title,
-                        list_items=item_list)))
+#            response_builder.add_directive(
+#                RenderTemplateDirective(
+#                    ListTemplate1(
+#                        token="Question",
+#                        back_button=BackButtonBehavior.HIDDEN,
+#                        background_image=background_img,
+#                        title=title,
+#                        list_items=item_list)))
 
         return response_builder.response
 
@@ -259,13 +261,13 @@ class QuizAnswerHandler(AbstractRequestHandler):
         else:
             speech = util.get_speechcon(correct_answer=False)
 
-        speech += util.get_answer(item_attr, item)
+        speech += util.get_my_answer(item_attr, item)
 
         if attr['counter'] < data.MAX_QUESTIONS:
             # Ask another question
             speech += util.get_current_score(
                 attr["quiz_score"], attr["counter"])
-            question = util.ask_question(handler_input)
+            question = util.ask_my_question(handler_input)
             speech += question
             reprompt = question
 
@@ -283,28 +285,28 @@ class QuizAnswerHandler(AbstractRequestHandler):
                             large_image_url=util.get_large_image(item)
                         )))
 
-            if util.supports_display(handler_input):
-                title = "Question #{}".format(str(attr["counter"]))
-                background_img = Image(
-                    sources=[ImageInstance(
-                        util.get_image(
-                            ht=1024, wd=600,
-                            label=attr["quiz_item"]["abbreviation"]))])
-                item_list = []
-                for ans in util.get_multiple_choice_answers(
-                        item, item_attr, data.STATES_LIST):
-                    item_list.append(ListItem(
-                        token=ans,
-                        text_content=get_plain_text_content(primary_text=ans)))
+#            if util.supports_display(handler_input):
+#                title = "Question #{}".format(str(attr["counter"]))
+#                background_img = Image(
+#                    sources=[ImageInstance(
+#                        util.get_image(
+#                            ht=1024, wd=600,
+#                            label=attr["quiz_item"]["abbreviation"]))])
+#                item_list = []
+#                for ans in util.get_multiple_choice_answers(
+#                        item, item_attr, data.STATES_LIST):
+#                    item_list.append(ListItem(
+#                        token=ans,
+#                        text_content=get_plain_text_content(primary_text=ans)))
 
-                response_builder.add_directive(
-                    RenderTemplateDirective(
-                        ListTemplate1(
-                            token="Question",
-                            back_button=BackButtonBehavior.HIDDEN,
-                            background_image=background_img,
-                            title=title,
-                            list_items=item_list)))
+#                response_builder.add_directive(
+#                    RenderTemplateDirective(
+#                        ListTemplate1(
+#                            token="Question",
+#                            back_button=BackButtonBehavior.HIDDEN,
+#                            background_image=background_img,
+#                            title=title,
+#                            list_items=item_list)))
             return response_builder.speak(speech).ask(reprompt).response
         else:
             # Finished all questions.

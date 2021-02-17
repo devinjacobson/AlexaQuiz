@@ -121,6 +121,14 @@ def get_question_without_ordinal(attr, item):
     return "What is the {} of {}. ".format(
         __get_attr_for_speech(attr), item["state"])
 
+def get_my_question_without_ordinal(attr, item):
+    return "{}".format(item["q"])
+
+def get_my_question(counter, attr, item):
+    return (
+        "Here is your {} question. {}").format(
+        get_ordinal_indicator(counter),
+        get_my_question_without_ordinal(attr, item))
 
 def get_question(counter, attr, item):
     """Return response text for nth question to the user."""
@@ -129,6 +137,10 @@ def get_question(counter, attr, item):
         get_ordinal_indicator(counter),
         get_question_without_ordinal(attr, item))
 
+def get_my_answer(attr, item):
+    """Return response text for correct answer to the user."""
+    return "The answer is {}. ".format(
+        item["a"])
 
 def get_answer(attr, item):
     """Return response text for correct answer to the user."""
@@ -140,6 +152,17 @@ def get_answer(attr, item):
         return "The {} of {} is {}. ".format(
             __get_attr_for_speech(attr), item["state"], item[attr.lower()])
 
+def ask_my_question(handler_input):
+    attr = handler_input.attributes_manager.session_attributes
+
+    random_q = get_random_state(data.QUIZ_CONTENT)
+    attr["quiz_item"] = random_q
+    attr["quiz_attr"] = "a"
+    attr["counter"] += 1
+
+    handler_input.attributes_manager.session_attributes = attr
+
+    return get_my_question(attr["counter"], attr["quiz_attr"], attr["quiz_item"])
 
 def ask_question(handler_input):
     # (HandlerInput) -> None
@@ -221,7 +244,7 @@ def compare_slots(slots, value):
 # Create the blank in string
 def replaceIC(word, sentence):
     insensitive_hippo = re.compile(re.escape(word), re.IGNORECASE)
-    return insensitive_hippo.sub('__________________', sentence)
+    return insensitive_hippo.sub('blank', sentence)
 
 # For a sentence create a blank space.
 # It first tries to randomly selection proper-noun
@@ -246,11 +269,8 @@ def removeWord(sentence, poss):
 
 def initdata():
     ww2 = '''
-    World War II (often abbreviated to WWII or WW2), also known as the Second World War, was a global war that lasted from 1939 to 1945, although related conflicts began earlier. It involved the vast majority of the world's countries—including all of the great powers—eventually forming two opposing military alliances: the Allies and the Axis. It was the most widespread war in history, and directly involved more than 100 million people from over 30 countries. In a state of total war, the major participants threw their entire economic, industrial, and scientific capabilities behind the war effort, erasing the distinction between civilian and military resources.
-
-    World War II was the deadliest conflict in human history, marked by 50 million to 85 million fatalities, most of which were civilians in the Soviet Union and China. It included massacres, the deliberate genocide of the Holocaust, strategic bombing, starvation, disease and the first use of nuclear weapons in history.[1][2][3][4]
-
-    The Empire of Japan aimed to dominate Asia and the Pacific and was already at war with the Republic of China in 1937,[5] but the world war is generally said to have begun on 1 September 1939[6] with the invasion of Poland by Nazi Germany and subsequent declarations of war on Germany by France and the United Kingdom. Supplied by the Soviet Union, from late 1939 to early 1941, in a series of campaigns and treaties, Germany conquered or controlled much of continental Europe, and formed the Axis alliance with Italy and Japan. Under the Molotov–Ribbentrop Pact of August 1939, Germany and the Soviet Union partitioned and annexed territories of their European neighbours, Poland, Finland, Romania and the Baltic states. The war continued primarily between the European Axis powers and the coalition of the United Kingdom and the British Commonwealth, with campaigns including the North Africa and East Africa campaigns, the aerial Battle of Britain, the Blitz bombing campaign, and the Balkan Campaign, as well as the long-running Battle of the Atlantic. On 22 June 1941, the European Axis powers launched an invasion of the Soviet Union, opening the largest land theatre of war in history, which trapped the major part of the Axis military forces into a war of attrition. In December 1941, Japan attacked the United States and European colonies in the Pacific Ocean, and quickly conquered much of the Western Pacific.
+    Daniel Robert Middleton[5] (born 8 November 1991), better known online as DanTDM (formerly TheDiamondMinecart), is an English YouTuber, gamer, actor and author known for his video game commentaries.[6] His online video channels have covered many video games including Minecraft, Roblox and Pokémon.
+    His channel has been listed among the top YouTube channels in the United Kingdom.[7] In July 2015, he was listed as one of the most popular YouTubers in the world by viewership.[8] He has won several Kids' Choice Awards and set Guinness World Records for his gaming and presenting. In 2017, Middleton topped the Forbes list of Highest-Paid YouTube Stars, earning $16.5 million (about GB£12.2 million) in one year. As of November 2020, his YouTube channel has reached over 24 million subscribers,     17 billion video views, and has posted more than 3,400 videos.
     '''
     #ww2 = unicode(ww2, 'utf-8')
     os.environ["NLTK_DATA"] = "/tmp"

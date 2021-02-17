@@ -253,17 +253,16 @@ STATES_LIST = [
         'statehood_year': '1820'
     }]
 
-SKILL_TITLE = "United States Quiz Game"
+SKILL_TITLE = "My Quiz Game"
 
-WELCOME_MESSAGE = ("Welcome to the United States Quiz Game!  "
-                   "You can ask me about any of the "
-                   "fifty states and their capitals, or you can ask me to "
-                   "start a quiz.  What would you like to do? ")
+WELCOME_MESSAGE = ("Welcome to my Quiz Game!  "
+                   "Say "
+                   "start quiz to start a quiz.  ")
 
 START_QUIZ_MESSAGE = ("OK.  I will ask you 10 questions about the "
-                      "United States. ")
+                      "Selected Subject. ")
 
-EXIT_SKILL_MESSAGE = ("Thank you for playing the United States Quiz Game!  "
+EXIT_SKILL_MESSAGE = ("Thank you for playing my Quiz Game!  "
                       "Let's play again soon!")
 
 REPROMPT_SPEECH = "Which other state or capital would you like to know about?"
@@ -290,7 +289,7 @@ IMG_PATH = (
     "https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/"
     "alexa-skills-kit/tutorials/quiz-game/state_flag/{}x{}/{}._TTH_.png")
 
-USE_CARDS_FLAG = True
+USE_CARDS_FLAG = False
 
 MAX_QUESTIONS = 10
 
