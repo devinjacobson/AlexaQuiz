@@ -1,3 +1,5 @@
 ask-sdk-core
 regex
 TextBlob
+requests
+bs4

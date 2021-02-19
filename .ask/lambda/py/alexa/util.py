@@ -7,6 +7,9 @@ import nltk
 import re
 import os
 from textblob import TextBlob
+import requests
+from bs4 import BeautifulSoup
+
 
 from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_core.utils import is_request_type
@@ -251,6 +254,12 @@ def replaceIC(word, sentence):
 # and if the proper noun is not found, it selects a noun randomly.
 def removeWord(sentence, poss):
     words = None
+    if len(poss) < 3:
+        return (None, sentence, None)
+    if 'NN' not in poss:
+        return (None, sentence, None)
+    if 'VBZ' not in poss:
+        return (None, sentence, None)
     if 'NNP' in poss:
         words = poss['NNP']
     elif 'NN' in poss:
@@ -267,11 +276,20 @@ def removeWord(sentence, poss):
         return (None, sentence, None)
 
 
-def initdata():
+def setdata():
     ww2 = '''
     Daniel Robert Middleton[5] (born 8 November 1991), better known online as DanTDM (formerly TheDiamondMinecart), is an English YouTuber, gamer, actor and author known for his video game commentaries.[6] His online video channels have covered many video games including Minecraft, Roblox and Pokémon.
     His channel has been listed among the top YouTube channels in the United Kingdom.[7] In July 2015, he was listed as one of the most popular YouTubers in the world by viewership.[8] He has won several Kids' Choice Awards and set Guinness World Records for his gaming and presenting. In 2017, Middleton topped the Forbes list of Highest-Paid YouTube Stars, earning $16.5 million (about GB£12.2 million) in one year. As of November 2020, his YouTube channel has reached over 24 million subscribers,     17 billion video views, and has posted more than 3,400 videos.
     '''
+    url = "https://en.wikipedia.org/wiki/Meteorological_history_of_Hurricane_Dorian"
+    req = requests.get(url)
+    soup = BeautifulSoup(req.content, 'html.parser')
+    ww2 = soup.text
+
+    return ww2
+
+def initdata():
+    ww2 = setdata()
     #ww2 = unicode(ww2, 'utf-8')
     os.environ["NLTK_DATA"] = "/tmp"
 #    nltk.download('punkt', download_dir='/tmp')
